@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-// zeet url?
+// zeet url
+// resuing backend from pdf sum project
 const API = axios.create({ baseURL: 'https://pdf-sum-backend-1oca-main-7ebk6ir5ca-wm.a.run.app/' });
 
 // authorization to apply middleware

@@ -5,3 +5,25 @@ body {
     background-size: cover;
 }
 
+progress {
+  width: 0;
+  min-width: 70%;
+}
+
+#my-progress {
+    position: relative;
+  }
+  
+  #my-progress span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 5px;
+    background-color: rgb(125, 124, 124);
+
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+
+  }

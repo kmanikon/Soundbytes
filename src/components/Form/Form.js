@@ -10,7 +10,6 @@ import * as pdfjsLib from 'pdfjs-dist/webpack';
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
 
-
 /*
   Reference for pdf text extract:
   https://qawithexperts.com/article/javascript/read-pdf-file-using-javascript/318
@@ -26,7 +25,7 @@ function ExtractText(setPDF) {
   var input = document.getElementById("file-id");
   var fReader = new FileReader();
   fReader.readAsDataURL(input.files[0]);
-  // console.log(input.files[0]);
+  //console.log(input.files[0]);
   fReader.onloadend = function (event) {
       convertDataURIToBinary(event.target.result, setPDF);
   }
@@ -66,6 +65,9 @@ function getPageText(pageNum, PDFDocumentInstance) {
                   finalString += item.str + " ";
               }
 
+              // this is the extracted text
+              //console.log(finalString);
+
               // Solve promise with the text retrieven from the page
               resolve(finalString);
           });
@@ -96,6 +98,7 @@ function pdfAsArray(pdfAsArray, setPDF) {
       // Execute all the promises
       Promise.all(pagesPromises).then(function (pagesText) {
 
+          //console.log(pagesText)
           setPDF(pagesText);
 
       });
@@ -159,8 +162,9 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const makePost = async (text) => {
 
+
     if (text == ''){
-      postData.message = 'Sorry! Try uploading a larger pdf.'
+      postData.message = 'Sorry! There was an error parsing text.'
     }
     else {
       postData.message = text
@@ -184,29 +188,21 @@ const Form = ({ currentId, setCurrentId }) => {
   // makes call to textminer NLP API
   const makeAPICall = async (text) => {
 
+    
+
     let input = ""
     
     for (let i = 0; i < text.length; i++){
       input += text[i]
     }
 
-    let bodystr = `{"language":"english","summary_percent":10,"text":"${input}"}`
 
-    const options = {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': 'e522d44591msh8f67deca2799f3ap1ae6a8jsnc8660dd82fed',
-        'X-RapidAPI-Host': 'text-analysis12.p.rapidapi.com'
-      },
-      body: bodystr
-    };
-    
-    fetch('https://text-analysis12.p.rapidapi.com/summarize-text/api/v1.1', options)
-      .then(response => response.json())
-      .then(response => makePost(response['summary']))
-      .catch(err => console.error(err));
+      makePost(input);
   }
+
+  
+
+    
 
 
   
@@ -241,7 +237,7 @@ const Form = ({ currentId, setCurrentId }) => {
     return (
       <Paper className={classes.paper}>
         <Typography variant="h6" align="center">
-          Please Sign In to Create Summaries.
+          Please Sign In to Create Soundbytes.
         </Typography>
       </Paper>
     );
@@ -251,8 +247,9 @@ const Form = ({ currentId, setCurrentId }) => {
   return (
     <Paper className={classes.paper}>
 
+
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-      <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Summary</Typography>
+      <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Soundbyte</Typography>
       
       <TextField 
         name="title" 

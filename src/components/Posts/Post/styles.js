@@ -49,6 +49,26 @@ export default makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     padding: '8px 8px',
+  },
+  progressBar: {
+    paddingLeft: '25px',
+    
+  },
+  marker: {
+    content: "",
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+
+    width: '10px',
+    height: '15px',
+
+    backgroundColor: 'black',
+    pointerEvents: 'none',
+    display: 'block',
   }
   
 });
+
+
+
