@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // zeet url?
-const API = axios.create({ baseURL: 'https://memories-app-gdmk-d821-main-7ebk6ir5ca-wm.a.run.app' });
+const API = axios.create({ baseURL: 'https://pdf-sum-backend-1oca-main-7ebk6ir5ca-wm.a.run.app/' });
 
 // authorization to apply middleware
 // send token to backend middleware
