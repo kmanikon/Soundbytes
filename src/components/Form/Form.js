@@ -266,6 +266,7 @@ const Form = ({ currentId, setCurrentId }) => {
       <input type="file" id="file-id" name="file_name" 
       className={classes.fileInput}
       onChange={() => doPDFSTUFF(setPDF)}
+      accept=".pdf"
       />
 
 
