@@ -22,6 +22,8 @@ import Speech from 'react-speech';
 
 import { Progress } from 'rsuite';
 
+import debounce from 'lodash.debounce';
+
 // each post card
 
 
@@ -215,6 +217,9 @@ const Post = ({ post, setCurrentId }) => {
   }
 
 
+
+
+
   const handleRemove = () => {
     synth.removeEventListener("speechend", null);
     dispatch(deletePost(post._id));
@@ -247,6 +252,15 @@ const Post = ({ post, setCurrentId }) => {
 
 
 
+  // Debounced functions for button click handlers
+  const debouncedFirstSpeak = debounce(() => {
+    firstSpeak();
+  }, 200); // Adjust the debounce delay as per your needs
+
+  const debouncedHandlePause = debounce(() => {
+    handlePause();
+  }, 200); // Adjust the debounce delay as per your needs
+
 
 
   /*
@@ -278,14 +292,14 @@ const Post = ({ post, setCurrentId }) => {
 
         <div display="flex" flex-direction="row" justify-content="center" align-items="center">
           {state == 0 ? 
-            <button onClick={() => firstSpeak()}>
+            <button onClick={() => debouncedFirstSpeak()}>
               <PlayArrow fontSize="small" />
             </button>
             :
             null
           }
           {state == 1 ? 
-            <button onClick={handlePause}>
+            <button onClick={debouncedHandlePause}>
               <Pause fontSize="small" />
             </button>
             :
@@ -293,7 +307,7 @@ const Post = ({ post, setCurrentId }) => {
           }
           {state == 2 ? 
           
-            <button onClick={handlePause}>
+            <button onClick={debouncedHandlePause}>
               <PlayArrow fontSize="small" />
             </button>
           :
