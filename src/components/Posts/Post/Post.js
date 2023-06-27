@@ -344,10 +344,7 @@ const Post = ({ post, setCurrentId }) => {
         >
 
 
-
-
         
-
 
         <Typography variant="body2" color="textPrimary" component="h5" href={post.message} target="_blank" gutterBottom>{post.message}</Typography>
         </ShowMoreText>
