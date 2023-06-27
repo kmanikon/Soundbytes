@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
+import { Avatar, Button, Paper, Grid, Typography, Container, CircularProgress } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -36,17 +36,20 @@ const Auth = () => {
   const [badLogin, setbadLogin] = useState(false);
   const [badSignUp, setbadSignUp] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // on clicking form submit
   const handleSubmit = (e) => {
     e.preventDefault(); 
     //console.log('submit')
     //console.log(formData);
 
+    setIsLoading(true);
     // call auth actions
     if (isSignup) {
-      dispatch(signup(formData, history, setbadSignUp));
+      dispatch(signup(formData, history, setbadSignUp, setIsLoading));
     } else {
-      dispatch(signin(formData, history, setbadLogin));
+      dispatch(signin(formData, history, setbadLogin, setIsLoading));
     }
   }
 
@@ -62,6 +65,24 @@ const Auth = () => {
   // update text for user input
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const handleDemoSignIn = (e) => {
+    const demoFormData = {
+      firstName: '',
+      lastName: '',
+      email: 'example@gmail.com',
+      password: '123',
+      confirmPassword: ''
+    }
+
+    e.preventDefault(); 
+
+    setIsLoading(true);
+
+    dispatch(signin(demoFormData, history, setbadSignUp, setIsLoading));
+
+    //setIsLoading(false);
+
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -83,14 +104,33 @@ const Auth = () => {
             <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
           { isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" /> }
         </Grid>
+        
         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-          { isSignup ? 'Sign Up' : 'Sign In' }
+          
+          {isLoading ? 
+            <>
+              <CircularProgress size={25} style={{color: 'white'}}/>
+            </>
+          :
+          <>
+            { isSignup ? 'Sign Up' : 'Sign In' }
+          </>
+          }
+          
         </Button>
-        <Grid container justify="flex-end">
+
+        
+        <Grid container justify="flex-end" style={{textAlign: 'center'}}>
           <Grid item>
+
             <Button onClick={switchMode}>
               { isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up" }
             </Button>
+
+            <Button onClick={handleDemoSignIn}>
+              { !isSignup ? 'Sign In As a Demo User' : null}
+            </Button>
+            
 
             { badLogin && !isSignup && (
               <Typography variant="h5">That user was not found</Typography>
@@ -99,6 +139,7 @@ const Auth = () => {
             { badSignUp && isSignup && (
               <Typography variant="h5">A user exists with that email</Typography>
             )}
+
 
            </Grid>
           </Grid>
