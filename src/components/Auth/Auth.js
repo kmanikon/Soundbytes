@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Avatar, Button, Paper, Grid, Typography, Container, CircularProgress } from '@material-ui/core';
+import { Avatar, Button, Paper, Grid, Typography, Container, CircularProgress, Box } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -120,25 +120,47 @@ const Auth = () => {
         </Button>
 
         
-        <Grid container justify="flex-end" style={{textAlign: 'center'}}>
-          <Grid item>
+        <Grid container justify="center">
+          <Grid item >
 
-            <Button onClick={switchMode}>
-              { isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up" }
-            </Button>
 
-            <Button onClick={handleDemoSignIn}>
-              { !isSignup ? 'Sign In As a Demo User' : null}
-            </Button>
-            
-
-            { badLogin && !isSignup && (
-              <Typography variant="h5">That user was not found</Typography>
+          { badLogin && !isSignup && (
+              <Typography variant="h6" style={{marginBottom: '10px', textAlign: 'center'}}>That user was not found</Typography>
             )}
             
             { badSignUp && isSignup && (
-              <Typography variant="h5">A user exists with that email</Typography>
+              <Typography variant="h6" style={{marginBottom: '10px', textAlign: 'center'}}>A user exists with that email</Typography>
             )}
+
+
+            <Box textAlign='center'>
+
+              { isSignup ?
+                <Button onClick={switchMode} >
+                  { 'Already have an account? Sign in'}
+                </Button>
+              :
+                <Button onClick={switchMode} >
+                  { "Don't have an account? Sign Up" }
+                </Button>
+              }
+
+            </Box>
+
+            {/*
+            <Button onClick={switchMode} >
+              { isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up" }
+            </Button>
+            */}
+
+            <Box textAlign='center'>
+              <Button onClick={handleDemoSignIn}>
+                { !isSignup ? 'Sign In As a Demo User' : null}
+              </Button>
+            </Box>
+            
+
+            
 
 
            </Grid>
