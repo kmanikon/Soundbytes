@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // zeet url
 // resuing backend from pdf sum project
-const API = axios.create({ baseURL: 'https://sound-bytes-km-6tzj.kmanikon-soundbytes.zeet.app/' });
+const API = axios.create({ baseURL: 'https://soundbytes-7ebk6ir5ca-uw.a.run.app/' });
 
 // authorization to apply middleware
 // send token to backend middleware
