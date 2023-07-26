@@ -27,3 +27,42 @@ progress {
     border-width: 1px;
 
   }
+
+
+  .drop-container {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #D3D3D3;
+    color: #444;
+    cursor: pointer;
+    transition: background .2s ease-in-out, border .2s ease-in-out;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+  }
+  
+  .drop-container:hover {
+    background: rgb(247, 247, 247);
+    border-color: #ADD8E6;
+  }
+  
+  .drop-container:hover .drop-title {
+    color: #ADD8E6;
+  }
+  
+  .drop-title {
+    color: #D3D3D3;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    transition: color .2s ease-in-out;
+  }
+
+  

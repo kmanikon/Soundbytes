@@ -27,6 +27,7 @@
     "react-scripts": "5.0.1",
     "react-show-more-text": "^1.6.2",
     "react-speech": "^1.0.2",
+    "react-uploader": "^3.38.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "rsuite": "^5.29.0",

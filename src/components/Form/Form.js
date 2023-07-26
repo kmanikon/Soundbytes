@@ -10,6 +10,8 @@ import * as pdfjsLib from 'pdfjs-dist/webpack';
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
 
+import CloudUpload from '@material-ui/icons/CloudUpload';
+
 /*
   Reference for pdf text extract:
   https://qawithexperts.com/article/javascript/read-pdf-file-using-javascript/318
@@ -147,12 +149,19 @@ const Form = ({ currentId, setCurrentId }) => {
 
   const [sumtext, setSumText] = useState('');
 
+  const [filename, setFilename] = useState('');
+
 
 
   // extract text from pdf (from input tag) and store in pdf state
   // async, done once handleSubmit is called
   const doPDFSTUFF = async (setPDF) => {
     console.log('hit')
+
+    var name = document.getElementById('file-id'); 
+
+    setFilename(name.files.item(0).name);
+
 
     ExtractText(setPDF)
 
@@ -216,6 +225,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(0); // might change back to null
     setPostData({ title: '', message: '', tags: '', selectedFile: '' });
+    setFilename('');
   }
 
 
@@ -263,11 +273,53 @@ const Form = ({ currentId, setCurrentId }) => {
 
 
 
+
+      
+
+    {/*}
       <input type="file" id="file-id" name="file_name" 
-      className={classes.fileInput}
-      onChange={() => doPDFSTUFF(setPDF)}
-      accept=".pdf"
+        className={classes.fileInput}
+        onChange={() => doPDFSTUFF(setPDF)}
+        accept=".pdf"
+        
       />
+  */}
+
+
+      <label for="file-id" className="drop-container" style={{width: '80%'}}>
+        <span className="drop-title">
+
+
+          <Typography variant="h6">{filename !== '' ? <>{filename}</> : <>{'Upload Pdf'}</>}</Typography>
+          <CloudUpload/>
+
+
+
+          
+
+
+        </span>
+      </label>
+      <input id="file-id" type="file" accept=".pdf" onChange={() => doPDFSTUFF(setPDF)} style={{display: 'none'}}/>
+
+
+
+{/*
+      <input type="file" id="file-upload"  accept=".pdf" onChange={() => doPDFSTUFF(setPDF)}/>     
+*/}
+
+
+{/*
+      <label for="files" className="drop-container" style={{width: '85%'}}>
+          <span className="drop-title">
+            <Typography variant="h5">Upload Pdf</Typography>
+            <CloudUpload/>
+          </span>
+      </label>   
+      <input type="file" id="file-id"  accept=".pdf" onChange={() => doPDFSTUFF(setPDF)}/>     
+*/}
+
+
 
 
        
@@ -285,7 +337,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
       <Button 
         variant="contained" 
-        color="secondary" 
+        color="action" 
         size="small" 
         onClick={clear}
         fullWidth>
