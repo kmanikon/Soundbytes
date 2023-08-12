@@ -171,6 +171,9 @@ const Post = ({ post, setCurrentId }) => {
     } else {
       setIsPaused(true);
       synth.pause();
+      synth.pause();
+      synth.pause();
+      //synth.stop()
     }
 
     updateState();
