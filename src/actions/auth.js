@@ -13,7 +13,7 @@ export const signin = (formData, router, setbadLogin, setIsLoading) => async (di
     setIsLoading(false)
 
     // go to posts page
-    router('/');
+    router('/home');
     
   } catch (error) {
     console.log(error);
@@ -36,7 +36,7 @@ export const signup = (formData, router, setbadSignUp, setIsLoading) => async (d
     // go back to posts homepage
     
     setIsLoading(false);
-    router('/');
+    router('/home');
   } catch (error) {
     console.log(error);
     setbadSignUp(true);

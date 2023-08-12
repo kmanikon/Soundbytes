@@ -26,7 +26,7 @@ const Navbar = () => {
     // login + go back to signin / signup
     const logout = () => {
         dispatch({ type: actionType.LOGOUT });
-        history('/auth');
+        history('/');
         setUser(null);
         console.log('logged out');
       };
@@ -46,7 +46,7 @@ const Navbar = () => {
         <AppBar className={classes.appBar} position="static" color="inherit">
             <div className={classes.brandContainer}>
 
-                <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Soundbytes</Typography>
+                <Typography component={Link} to="/home" className={classes.heading} variant="h2" align="center">Soundbytes</Typography>
                 <img className={classes.image} src={audioPlay} alt="icon" height="80" width="100"/>
                 
             </div>

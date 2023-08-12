@@ -25,8 +25,9 @@ const App = () => {
         <Container maxWidth="lg">
             <Navbar/>
             <Routes>
-                <Route exact path="/" element={<Home/>}/>
-                <Route path="/auth" element={<Auth/>}/>
+                <Route exact path="/home" element={<Home/>}/>
+                <Route path="/" element={<Auth/>}/>
+                <Route exact path="*" element={<Auth/>}/>
             </Routes>
         </Container>
     )
