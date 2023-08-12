@@ -6,8 +6,7 @@ body {
 }
 
 progress {
-  width: 0;
-  min-width: 70%;
+  width: 50%;
 }
 
 #my-progress {
@@ -64,5 +63,28 @@ progress {
     text-align: center;
     transition: color .2s ease-in-out;
   }
+
+  .select-voice {
+    width: 100%;
+    min-width: 15ch;
+    max-width: 30ch;
+    border: 1px solid var(--select-border);
+    border-radius: 0.25em;
+    padding: 0.15em ;
+    font-size: 1.00rem;
+    cursor: pointer;
+    line-height: 1.1;
+    background-color: #fff;
+    background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+  }
+
+
+  :root {
+    --select-border: #777;
+    --select-focus: blue;
+    --select-arrow: var(--select-border);
+  }
+
+
 
   

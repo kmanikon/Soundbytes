@@ -11,9 +11,26 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     padding: '10px 50px',
   },
+  /*
   heading: {
     color: 'rgba(0,183,255, 1)',
     textDecoration: 'none',
+  },
+  */
+  heading: {
+    color: 'rgba(0, 183, 255, 1)',
+    textDecoration: 'none',
+
+    // Add media queries for different screen widths
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '3.15rem', // Adjust this value as needed for smaller screens
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      fontSize: '4rem', // Adjust this value as needed for medium screens
+    },
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '4rem', // Adjust this value as needed for larger screens
+    },
   },
   image: {
     marginLeft: '25px',

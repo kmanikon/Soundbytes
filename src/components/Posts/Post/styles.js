@@ -52,7 +52,6 @@ export default makeStyles({
   },
   progressBar: {
     paddingLeft: '25px',
-    
   },
   marker: {
     content: "",
@@ -66,6 +65,9 @@ export default makeStyles({
     backgroundColor: 'black',
     pointerEvents: 'none',
     display: 'block',
+  },
+  voiceSel: {
+    marginLeft: '15px'
   }
   
 });

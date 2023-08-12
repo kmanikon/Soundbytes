@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core/';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -28,11 +28,19 @@ import debounce from 'lodash.debounce';
 
 
 
+const voiceList = [
+  'Samantha',
+  'Daniel',
+  'Karen',
+  'Moira',
+  'Tessa',
+  //'Organ',
+  //'Cellos'
+]
 
 
 
-
-
+const synth = window.speechSynthesis;
 
 const Post = ({ post, setCurrentId }) => {
 
@@ -43,11 +51,90 @@ const Post = ({ post, setCurrentId }) => {
   const [progress, setProgress] = useState(0);
   const [max, setmax] = useState(1);
 
-  const synth = window.speechSynthesis;
+
+
   
+  
+  const [selectedVoice, setSelectedVoice] = useState(0);
+
+  //const [voices, setVoicesOut] = useState([]);
+
+  const [newvoices, setNewvoices] = useState([]);
+
+  const VoiceSelector = ({ selected = 0, setSelected, disabled }) => {
+    const [voices, setVoices] = useState([]);
+  
+    const populateVoiceList = useCallback(() => {
+      //const newVoices = synth.getVoices().filter(voice => voice.lang.startsWith('en-US'));
+      const newVoices = synth.getVoices().filter((voice) => {
+        return (
+          voice.lang.startsWith('en') 
+          && voiceList.some((name) => voice.name.includes(name))
+        );
+      });
+      setVoices(newVoices);
+      
+    }, []);
+
+    
+  
+    
+    useEffect(() => {
+      populateVoiceList();
+      if (synth.onvoiceschanged !== undefined) {
+        synth.onvoiceschanged = populateVoiceList;
+      }
+    }, [populateVoiceList]);
+    
 
 
+  
+    return (
 
+      <>
+
+        { disabled === 0 || disabled === 2 ? 
+          <select
+            value={selected}
+            onChange={(e) => setSelected(parseInt(e.target.value))}
+            style={{
+              width: '90px',
+              //textAlign: 'center'
+              marginRight: '10px',
+              marginLEft: '10px'
+            }}
+            className="select-voice"
+          >
+            {voices.map((voice, index) => (
+              <option key={index} value={index}>
+                {voice.name} {/*({voice.lang}) {voice.default && ' [Default]'}*/}
+              </option>
+            ))}
+          </select>
+        :
+          <select
+            value={selected}
+            onChange={(e) => setSelected(parseInt(e.target.value))}
+            style={{
+              width: '90px',
+              //textAlign: 'center'
+              marginRight: '10px',
+              marginLEft: '10px'
+            }}
+            className="select-voice"
+            disabled
+          >
+            {voices.map((voice, index) => (
+              <option key={index} value={index}>
+                {voice.name} {/*({voice.lang}) {voice.default && ' [Default]'}*/}
+              </option>
+            ))}
+          </select>
+        }
+      </>
+
+    );
+  };
 
 
 
@@ -108,6 +195,25 @@ const Post = ({ post, setCurrentId }) => {
     if (text !== "") {
       const utterance = new SpeechSynthesisUtterance(text);
 
+      //utterance.voice = synth.getVoices().filter(voice => voice.lang.startsWith('en-US'))[selectedVoice];
+
+
+
+
+
+      
+      const newVoices = synth.getVoices().filter((voice) => {
+        return (
+          voice.lang.startsWith('en') 
+          && voiceList.some((name) => voice.name.includes(name))
+        );
+      });
+
+  
+      
+      utterance.voice = newVoices[selectedVoice];
+      
+
       setmax(1);
       
       const onBoundary = (event) => {
@@ -155,6 +261,13 @@ const Post = ({ post, setCurrentId }) => {
     return () => {
       //synth.removeEventListener("speechend");
     };
+
+    setNewvoices(synth.getVoices().filter((voice) => {
+      return (
+        voice.lang.startsWith('en') 
+        && voiceList.some((name) => voice.name.includes(name))
+      );
+    }))
   }, []);
 
 
@@ -282,6 +395,7 @@ const Post = ({ post, setCurrentId }) => {
     <Card className={classes.card} >
       {(user?.result?.name === post?.name) && (
         <div className={classes.overlay2}>
+
           <Button style={{ color: 'grey' }} size="small" onClick={() => setCurrentId(post._id)}>
             <MoreHorizIcon fontSize="medium" />
           </Button>
@@ -291,9 +405,16 @@ const Post = ({ post, setCurrentId }) => {
 
         <Typography className={classes.title} variant="h5" gutterBottom >{post.title}</Typography>
       
+
+        <div className={classes.voiceSel}>
+          <VoiceSelector selected={selectedVoice} setSelected={setSelectedVoice} disabled={state} />
+        </div>
+
+
       <CardContent>
 
-        <div display="flex" flex-direction="row" justify-content="center" align-items="center">
+        <div display="flex" flex-direction="row" justify-content="center" align-items="center" style={{width: '130%'}}>
+          
           {state == 0 ? 
             <button onClick={() => debouncedFirstSpeak()}>
               <PlayArrow fontSize="small" />
@@ -316,12 +437,16 @@ const Post = ({ post, setCurrentId }) => {
           :
           null
         }
+        
+      
 
         <span style={{ paddingLeft: '5px' }}>
         <button onClick={stop}>
           <Stop fontSize="small"/>   
         </button>
         </span>
+
+        
 
 
         
@@ -338,6 +463,10 @@ const Post = ({ post, setCurrentId }) => {
 
           </span>
         </span>
+
+
+
+
 
         
 
